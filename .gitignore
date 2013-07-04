@@ -1,0 +1,6 @@
+java/.DS_Store
+java/test/build/
+java/test/logs/
+*.log
+*.tmp
+*.dot

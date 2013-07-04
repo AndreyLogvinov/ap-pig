@@ -1,0 +1,8 @@
+STORAGE=PigStorage('\\t')
+SIMILARITY_JAR=java/test/build/test.jar
+SIMILARITY_FUN=org.alogvinov.affprop.test.TestSim.point2dSim
+DAMP=0.5
+MAX_ITER=10
+CONV_ITER=5
+INPUT=points.example
+OUTPUT=points.cluster

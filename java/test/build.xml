@@ -1,0 +1,56 @@
+<project name="PigUnit" default="pigunit" basedir=".">
+  <description>
+      PigUnit tests
+  </description>
+
+  <property environment="env"/>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+
+  <path id="classpath">
+    <fileset file="${env.PIG_JAR}"/>
+    <fileset file="${env.PIGUNIT_JAR}"/>
+    <fileset dir="${env.JUNIT_LIB}" includes="**/*.jar"/>
+  </path>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build}/classes"/>
+    <mkdir dir="${build}/logs"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${src}" destdir="${build}/classes" includes="**/*.java">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="${build}/test.jar" basedir="${build}/classes"/>
+  </target>
+
+  <target name="pigunit" depends="compile, jar">
+      <junit printsummary="yes" haltonfailure="no" fork="yes" maxmemory="512m" dir="${basedir}">
+        <classpath>
+          <pathelement location="${build}/classes"/>
+          <path refid="classpath"/>
+        </classpath>
+        <formatter type="plain"/>
+        <batchtest fork="yes" todir="${build}/logs">
+          <fileset dir="${src}">
+            <patternset>
+              <include name="**/*Tests.java"/>
+            </patternset>
+          </fileset>
+        </batchtest>
+        <assertions>
+          <enable/>
+        </assertions>
+      </junit>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+</project>
